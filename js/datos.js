@@ -25,3 +25,9 @@ var listaTareas = new Array(
         prioridad : 'mensual'
     }
 )
+
+//   // Guardar el array en el almacenamiento local
+//   localStorage.setItem('listaTareas', JSON.stringify(listaTareas));
+
+
+

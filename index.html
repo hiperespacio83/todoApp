@@ -17,10 +17,10 @@
     <div class="container mt-3">
         <form action="" class="row align-items-center" style="height: 100px; background-color: rgba(168, 163, 163, 0.452);">
             <div class="col">
-                <input type="text" class="form-control" id="tarea" placeholder="Introducir nueva tarea">
+                <input type="text" class="form-control" id="tarea1" placeholder="Introducir nueva tarea">
             </div>
             <div class="col">
-                <select name="prioridad" class="form-select" id="prioridad">
+                <select name="prioridad" class="form-select" id="prioridad1">
                     <option value="diaria">Diaria</option>
                     <option value="urgente">Urgente</option>
                     <option value="mensual">Mensual</option>
@@ -33,14 +33,14 @@
         <div>
             <form action="" class="row align-items-center" style="background-color: rgba(7, 7, 7, 0.713);height: 100px;">
                 <div class="col-4">
-                    <select name="prioridad" class="form-select" id="prioridad">
+                    <select name="prioridad" class="form-select" id="prioridad2">
                         <option value="diaria">Diaria</option>
                         <option value="urgente">Urgente</option>
                         <option value="mensual">Mensual</option>
                     </select>
                 </div>
                 <div class="col-4">
-                    <input type="text" class="form-control" id="tarea" placeholder="Introduce la tarea a buscar">
+                    <input type="text" class="form-control" id="tarea2" placeholder="Introduce la tarea a buscar" onkeydown="handleKeyPress(event)">
                 </div>
 
             </form>
