@@ -36,9 +36,11 @@ function printOneElement (pElement,pDom) {
 
 cargarListado(listaTareas,ulListado);
 
-const prioridad = document.querySelector('#prioridad2');
+let id = 0;
 
-prioridad.addEventListener('change',selectPriority);
+const selectPrioridad = document.querySelector('#prioridad2');
+
+selectPrioridad.addEventListener('change',selectPriority);
 
 function selectPriority (event) {
 
@@ -60,8 +62,8 @@ function filtrarByPriority(list, prioridad) {
     return list.filter(element => element.prioridad === prioridad);
 }
 
-const tarea = document.querySelector('#tarea2');
-tarea.addEventListener('input',handleKeyPress);
+const inputTarea = document.querySelector('#tarea2');
+inputTarea.addEventListener('input',handleKeyPress);
 
 function handleKeyPress(event) {
     if (event.keyCode === 13 || event.keyCode === 3) {
@@ -86,3 +88,38 @@ function handleKeyPress(event) {
     return list.filter(element => element.titulo.toLowerCase().includes(tarea.toLowerCase()));
   }
 
+  let prioridad=" ";
+  let titulo=" ";
+  const inputTarea1 = document.querySelector('#tarea1');
+  
+  const selectPrioridad1 = document.querySelector('#prioridad1');
+
+
+  inputTarea1.addEventListener('input',crearTituloTarea);
+
+  function crearTituloTarea(event) {
+    titulo = event.target.value;
+  }
+  selectPrioridad1.addEventListener('change',crearPrioridad);
+
+  function crearPrioridad(event) {
+    prioridad = event.target.value;
+  }
+
+ 
+
+  const btnGuardar = document.querySelector('#btn');
+
+  btnGuardar.addEventListener('click',addNewTarea);
+
+  
+
+  function addNewTarea () {
+    const tarea = new Tarea(id,titulo,prioridad);
+    id++;
+    listaTareas.push(tarea);
+    ulListado.innerHTML=" ";
+    cargarListado(listaTareas,ulListado);
+  }
+
+ 
