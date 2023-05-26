@@ -1,10 +1,30 @@
 const ulListado = document.querySelector('#listado');
 
+
+let listaTareas = [];
+listaTareas=getTaskListLocalStorage();
+cargarListado(listaTareas,ulListado);
+
 function cargarListado (pLista,pDom) {
+  ulListado.innerHTML=" ";
     pLista.forEach(element => {
         printOneElement(element,pDom);
     });
+     // Guardar el array en el almacenamiento local
+    localStorage.setItem('listaTareas', JSON.stringify(listaTareas));
+    
 }
+
+function getTaskListLocalStorage() {
+  const taskList = JSON.parse(localStorage.getItem('listaTareas'))
+  if (taskList !== null) {
+      cargarListado(taskList,ulListado);
+      return taskList;
+      //me devuelve lo que esta guardado en el localstorage
+  }
+  return [];
+}
+
 
 function printOneElement (pElement,pDom) {
 
@@ -19,24 +39,15 @@ function printOneElement (pElement,pDom) {
         color = 'list-group-item-danger';
     }
 
-    pDom.innerHTML+=`<li class="list-group-item ${color} d-flex justify-content-between">${pElement.titulo}<button id="${pElement.id}" class="btn btn-danger">Eliminar</button></li>`;
+    pDom.innerHTML+=`<li class="list-group-item ${color} d-flex justify-content-between">${pElement.titulo}<button id="${pElement.titulo}" class="btn btn-danger">Eliminar</button></li>`;
+
+
 }
 
-// function getTaskListLocalStorage() {
-//     const taskList = JSON.parse(localStorage.getItem('listaTareas'))
-//     if (taskList !== null) {
-//         cargarListado(taskList,ulListado);
-//         return taskList;
-//         //tengo algo guardado en el localstorage
-//     }
-//     return [];
-// }
 
-// listaTareas=getTaskListLocalStorage();
 
-cargarListado(listaTareas,ulListado);
 
-let id = 0;
+
 
 const selectPrioridad = document.querySelector('#prioridad2');
 
@@ -90,6 +101,7 @@ function handleKeyPress(event) {
 
   let prioridad=" ";
   let titulo=" ";
+  let id = 0;
   const inputTarea1 = document.querySelector('#tarea1');
   
   const selectPrioridad1 = document.querySelector('#prioridad1');
@@ -115,32 +127,43 @@ function handleKeyPress(event) {
   
 
   function addNewTarea () {
-    const tarea = new Tarea(id,titulo,prioridad);
-    id++;
+    id = listaTareas.length;
+    let tarea = {id : id, titulo : titulo, prioridad: prioridad};
     listaTareas.push(tarea);
+    console.log(tarea);
+    console.log(listaTareas);
     ulListado.innerHTML=" ";
     cargarListado(listaTareas,ulListado);
+    console.log(btnEliminar);
   }
 
-  const btnEliminar = document.querySelectorAll('.btn danger');
+  
+   const btnEliminar = document.querySelectorAll('.btn-danger');
+    btnEliminar.forEach(btn=>btn.addEventListener('click',deleteTask));
 
-  btnEliminar.forEach(btn => btn.addEventListener('click',deleteTask));
+  
 
 
 
 
   function deleteTask (event) {
 
+
     ulListado.innerHTML=" ";
-    let id = Number(event.target.id);
-    let listaModificada = filterById(listaTareas,id);
-    cargarListado(listaModificada,ulListado);
+    let titulo = event.target.id;
+    let listaModificada = deleteByTitle(listaTareas,titulo);
+    listaTareas = listaModificada;
+    cargarListado(listaTareas,ulListado);
+    
+    
     console.log (event);
+    console.log(listaModificada);
+    console.log(listaTareas);
 
   }
 
-  function filterById (list,id){
-    return list.filter ( element => element.id !== id);
+  function deleteByTitle (list,titulo){
+    return list.filter ( element => element.titulo !== titulo);
   }
 
- 
+   
