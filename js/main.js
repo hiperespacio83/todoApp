@@ -6,7 +6,7 @@ listaTareas=getTaskListLocalStorage();
 cargarListado(listaTareas,ulListado);
 
 function cargarListado (pLista,pDom) {
-  ulListado.innerHTML=" ";
+    ulListado.innerHTML=" ";
     pLista.forEach(element => {
         printOneElement(element,pDom);
     });
@@ -46,7 +46,7 @@ function printOneElement (pElement,pDom) {
 
 
 
-
+// Esta es la parte donde filtramos el listado por prioridades
 
 
 const selectPrioridad = document.querySelector('#prioridad2');
@@ -72,6 +72,8 @@ function selectPriority (event) {
 function filtrarByPriority(list, prioridad) {
     return list.filter(element => element.prioridad === prioridad);
 }
+
+// Esta parte es la de busqueda por input pulsando intro
 
 const inputTarea = document.querySelector('#tarea2');
 inputTarea.addEventListener('input',handleKeyPress);
@@ -99,11 +101,13 @@ function handleKeyPress(event) {
     return list.filter(element => element.titulo.toLowerCase().includes(tarea.toLowerCase()));
   }
 
+  // Esta es la parte de añadir nueva tarea
+
   let prioridad=" ";
   let titulo=" ";
   let id = 0;
+
   const inputTarea1 = document.querySelector('#tarea1');
-  
   const selectPrioridad1 = document.querySelector('#prioridad1');
 
 
@@ -132,17 +136,17 @@ function handleKeyPress(event) {
     listaTareas.push(tarea);
     console.log(tarea);
     console.log(listaTareas);
-    ulListado.innerHTML=" ";
     cargarListado(listaTareas,ulListado);
     console.log(btnEliminar);
   }
 
+
+
+// Esta es la parte de eliminar tarea
+
   
    const btnEliminar = document.querySelectorAll('.btn-danger');
     btnEliminar.forEach(btn=>btn.addEventListener('click',deleteTask));
-
-  
-
 
 
 
