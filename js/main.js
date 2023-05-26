@@ -19,7 +19,7 @@ function printOneElement (pElement,pDom) {
         color = 'list-group-item-danger';
     }
 
-    pDom.innerHTML+=`<li class="list-group-item ${color} d-flex justify-content-between">${pElement.titulo}<button id="eliminar" class="btn btn-danger">Eliminar</button></li>`;
+    pDom.innerHTML+=`<li class="list-group-item ${color} d-flex justify-content-between">${pElement.titulo}<button id="${pElement.id}" class="btn btn-danger">Eliminar</button></li>`;
 }
 
 // function getTaskListLocalStorage() {
@@ -48,7 +48,7 @@ function selectPriority (event) {
 
     let prioridad = event.target.value;
 
-    if ( prioridad !== " ") {
+    if ( prioridad === "diaria" || prioridad === "mensual" || prioridad === "urgente") {
         let listafiltrada = filtrarByPriority(listaTareas,prioridad);
         cargarListado(listafiltrada,ulListado);
     } else {
@@ -120,6 +120,27 @@ function handleKeyPress(event) {
     listaTareas.push(tarea);
     ulListado.innerHTML=" ";
     cargarListado(listaTareas,ulListado);
+  }
+
+  const btnEliminar = document.querySelectorAll('.btn danger');
+
+  btnEliminar.forEach(btn => btn.addEventListener('click',deleteTask));
+
+
+
+
+  function deleteTask (event) {
+
+    ulListado.innerHTML=" ";
+    let id = Number(event.target.id);
+    let listaModificada = filterById(listaTareas,id);
+    cargarListado(listaModificada,ulListado);
+    console.log (event);
+
+  }
+
+  function filterById (list,id){
+    return list.filter ( element => element.id !== id);
   }
 
  
