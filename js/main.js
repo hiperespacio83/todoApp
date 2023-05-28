@@ -131,12 +131,15 @@ function handleKeyPress(event) {
   
 
   function addNewTarea () {
+    
     id = listaTareas.length;
     let tarea = {id : id, titulo : titulo, prioridad: prioridad};
     listaTareas.push(tarea);
     console.log(tarea);
     console.log(listaTareas);
     cargarListado(listaTareas,ulListado);
+    selectPrioridad1.value="";
+   
     console.log(btnEliminar);
   }
 
@@ -153,7 +156,7 @@ function handleKeyPress(event) {
   function deleteTask (event) {
 
 
-    ulListado.innerHTML=" ";
+    
     let titulo = event.target.id;
     let listaModificada = deleteByTitle(listaTareas,titulo);
     listaTareas = listaModificada;
