@@ -1,9 +1,13 @@
 const ulListado = document.querySelector('#listado');
+const btnEliminar = document.querySelectorAll('.btn-danger');
+btnEliminar.forEach(btn=>btn.addEventListener('click',deleteTask));
 
 
-let listaTareas = [];
-listaTareas=getTaskListLocalStorage();
+
+
+let listaTareas=getTaskListLocalStorage();
 cargarListado(listaTareas,ulListado);
+console.log(listaTareas);
 
 function cargarListado (pLista,pDom) {
     ulListado.innerHTML=" ";
@@ -11,8 +15,7 @@ function cargarListado (pLista,pDom) {
         printOneElement(element,pDom);
     });
      // Guardar el array en el almacenamiento local
-    localStorage.setItem('listaTareas', JSON.stringify(listaTareas));
-    
+    localStorage.setItem('listaTareas', JSON.stringify(pLista));
 }
 
 function getTaskListLocalStorage() {
@@ -28,20 +31,36 @@ function getTaskListLocalStorage() {
 
 function printOneElement (pElement,pDom) {
 
-    let color = " ";
-    
 
-    if (pElement.prioridad === 'diaria') {
-        color = 'list-group-item-success';
-    } else if (pElement.prioridad === 'mensual') {
-        color = 'list-group-item-primary';
-    } else {
-        color = 'list-group-item-danger';
-    }
+    // pDom.innerHTML+=`<li class="list-group-item ${color} d-flex justify-content-between">${pElement.titulo}</li>`;
 
-    pDom.innerHTML+=`<li class="list-group-item ${color} d-flex justify-content-between">${pElement.titulo}<button id="${pElement.titulo}" class="btn btn-danger">Eliminar</button></li>`;
+    let li = document.createElement('li');
+    li.classList.add("list-group-item","d-flex","justify-content-between");
+    li.innerText=pElement.titulo;
+
+ 
 
 
+
+    let button = document.createElement('button');
+    button.classList.add("btn","btn-danger");
+    button.innerText="Eliminar";
+    button.id=pElement.titulo;
+    button.addEventListener('click', (event) => {
+      //button       li    ul                       li
+      event.target.parentNode.parentNode.removeChild(event.target.parentNode);
+  })
+  if (pElement.prioridad === 'diaria') {
+    li.classList.add('list-group-item-success');
+} else if (pElement.prioridad === 'mensual') {
+  li.classList.add('list-group-item-primary');
+} else {
+  li.classList.add('list-group-item-danger');
+}
+    li.appendChild(button);
+    pDom.appendChild(li);
+
+    // <button id="${pElement.titulo}" class="btn btn-danger">Eliminar</button>
 }
 
 
@@ -131,41 +150,39 @@ function handleKeyPress(event) {
   
 
   function addNewTarea () {
+
     
     id = listaTareas.length;
     let tarea = {id : id, titulo : titulo, prioridad: prioridad};
     listaTareas.push(tarea);
-    console.log(tarea);
-    console.log(listaTareas);
+   
+    
     cargarListado(listaTareas,ulListado);
     selectPrioridad1.value="";
+    inputTarea1.value="";
    
-    console.log(btnEliminar);
   }
 
 
 
 // Esta es la parte de eliminar tarea
 
-  
-   const btnEliminar = document.querySelectorAll('.btn-danger');
-    btnEliminar.forEach(btn=>btn.addEventListener('click',deleteTask));
+
 
 
 
   function deleteTask (event) {
-
-
     
     let titulo = event.target.id;
     let listaModificada = deleteByTitle(listaTareas,titulo);
-    listaTareas = listaModificada;
-    cargarListado(listaTareas,ulListado);
+    
+    cargarListado(listaModificada,ulListado);
     
     
-    console.log (event);
+    
     console.log(listaModificada);
     console.log(listaTareas);
+    console.log(btnEliminar);
 
   }
 
